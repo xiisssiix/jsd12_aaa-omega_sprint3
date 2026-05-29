@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
 
+export let mongoStatus = "Disconnected";
+
 export async function connectMongoDb() {
 
   const uri = process.env.MONGODB_URI;
 
   try {
     await mongoose.connect(uri, { dbName: "aaa-omega" });
+    mongoStatus = "Connected";
     console.log("MongoDB connected");
-  } catch (err) {
-    console.error("MongoDB connection error", err);
-    throw err;
+  } catch (error) {
+    mongoStatus = "Error";
+    console.error("MongoDB connection error", error);
+    throw error;
   };
 
 };
