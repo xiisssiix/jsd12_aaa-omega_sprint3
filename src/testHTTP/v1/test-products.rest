@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:8888/api/v1/products
+
+### Read all products
+GET {{baseUrl}}
+
+### Create a new product
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+}
+
+### Update a product
+PUT {{baseUrl}}/:id
+Content-Type: application/json
+
+{
+}
+
+### DELETE a product
+DELETE {{baseUrl}}/:id

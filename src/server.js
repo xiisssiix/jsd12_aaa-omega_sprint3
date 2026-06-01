@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
+import { router as apiRoutes } from "./routes/index.js";
 import { connectMongoDb, mongoStatus } from "./config/mongodb.js";
 import { connectCloudinary, cloudinaryStatus } from "./config/cloudinary.js";
 import { limiter } from "./middlewares/rateLimit.js";
@@ -46,8 +47,8 @@ app.get('/', (req, res) => {
         .badge    {position:absolute; top:0; right:16px; transform:translate(0,-50%); font-size:10px; color:#ffffff;
                    padding:2px 4px 4px; border-radius:4px; background-color:#d3d6dd;}
         .status   {display:flex; flex-direction:column; gap:16px;}
-        .item     {display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; row-gap:8px; column-gap:4px; font-weight:600;
-                   padding:8px 16px; border-radius:8px; background:#f9fafb;}
+        .item     {display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; row-gap:4px; column-gap:8px; font-weight:600;
+                    padding:8px 16px; border-radius:8px; background:#f9fafb;}
         .online   {color:#40a448;}
         .offline  {color:#ff525f;}
       </style>
@@ -82,6 +83,23 @@ app.get('/', (req, res) => {
     </html>
   `);
 })
+
+app.use("/api", apiRoutes);
+
+// Centralized error 404 Not Found
+
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error!",
+    path: req.originalUrl,
+    method: req.method,
+    timestamp: new Date().toISOString(),
+    stack: err.stack,
+  });
+});
 
 const PORT = process.env.PORT || 8888;
 

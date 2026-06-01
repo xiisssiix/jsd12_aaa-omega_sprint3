@@ -7,7 +7,7 @@ export async function connectMongoDb() {
   const uri = process.env.MONGODB_URI;
 
   try {
-    await mongoose.connect(uri, { dbName: "aaa-omega" });
+    await mongoose.connect(uri, { dbName: "solarcell-ecommerce" });
     mongoStatus = "Connected";
     console.log("MongoDB connected");
   } catch (error) {
