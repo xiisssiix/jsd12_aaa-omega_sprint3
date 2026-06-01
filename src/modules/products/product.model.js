@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
+import { getNextSequence } from "../counters/counter.service.js";
+
 const productSchema = new mongoose.Schema({
-  productId: { type:String, required:true, unique:true, index:true },
+  productNumber: { type:Number, required:true, unique:true, index:true },
   name: { type:String, required:true, trim:true, maxlength:200 },
   sku: { type:String, required:true, trim:true, lowercase:true, unique:true, index:true },
   brand: { type:String },
@@ -32,6 +34,12 @@ const productSchema = new mongoose.Schema({
   isActive: { type:Boolean, default:true, index:true }
 }, {
   timestamps:true
+});
+
+productSchema.pre("save", async function () {
+  if (this.productNumber == null) {
+    this.productNumber = await getNextSequence("product");
+  };
 });
 
 export const Product = mongoose.model("Product", productSchema);
