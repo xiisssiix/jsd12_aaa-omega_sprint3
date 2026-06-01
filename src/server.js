@@ -107,5 +107,6 @@ await connectMongoDb();
 await connectCloudinary();
 
 app.listen(PORT, () => {
-  console.log(`Server running on PORT: ${PORT}`)
+  console.log(`Server running on port: ${PORT}
+    http://localhost:${PORT}`);
 });
