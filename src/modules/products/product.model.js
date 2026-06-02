@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import { getNextSequence } from "../counters/counter.service.js";
 
 const productSchema = new mongoose.Schema({
-  productNumber: { type:Number, required:true, unique:true, index:true },
+  productNumber: { type:Number, unique:true, immutable:true, index:true },
   name: { type:String, required:true, trim:true, maxlength:200 },
-  sku: { type:String, required:true, trim:true, lowercase:true, unique:true, index:true },
+  sku: { type:String, required:true, unique:true, index:true, trim:true, lowercase:true },
   brand: { type:String },
   category: { type:String, required:true },
   warranty: { type:Number, required:true },
@@ -20,7 +20,11 @@ const productSchema = new mongoose.Schema({
     default: []
   },
   features: { type:[String], trim:true, default:[] },
-  images: [
+  image: {
+    url: { type:String },
+    cloudinaryId: { type:String }
+  },
+  gallery: [
     {
       url: { type:String },
       cloudinaryId: { type:String }
