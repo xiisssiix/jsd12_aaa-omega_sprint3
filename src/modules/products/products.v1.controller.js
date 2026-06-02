@@ -21,6 +21,18 @@ export const getProductById = async (req, res, next) => {
   };
 };
 
+export const getProductByNumber  = async (req, res, next) => {
+  try {
+    const product = await Product.findOne({ productNumber: Number(req.params.productNumber) });
+    if (!product) {
+      return res.status(404).json({ success: false, error: "Product not found" });
+    };
+    return res.status(200).json({ success: true, data: product });
+  } catch (error) {
+    next(error);
+  };
+};
+
 export const createProduct = async (req, res, next) => {
   try {
     const product = await Product.create(req.body);
