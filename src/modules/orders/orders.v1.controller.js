@@ -11,7 +11,7 @@ export const getOrders = async (req, res, next) => {
 
 export const getOrderByNumber  = async (req, res, next) => {
   try {
-    const order = await Order.findOne(req.params.orderNumber);
+    const order = await Order.findOne({ orderNumber: req.params.orderNumber });
     if (!order) {
       return res.status(404).json({ success: false, error: "Order not found" });
     };
@@ -58,6 +58,19 @@ export const updateOrderStatus = async (req, res, next) => {
   try {
     const { status } = req.body;
     const order = await Order.findByIdAndUpdate(req.params.id, { status }, { returnDocument: "after", runValidators: true });
+    if (!order) {
+      return res.status(404).json({ success: false, error: "Order not found" });
+    }
+    return res.status(200).json({ success: true, data: order });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOrderInternalNote = async (req, res, next) => {
+  try {
+    const { internalNote } = req.body;
+    const order = await Order.findByIdAndUpdate(req.params.id, { internalNote }, { returnDocument: "after", runValidators: true });
     if (!order) {
       return res.status(404).json({ success: false, error: "Order not found" });
     }
