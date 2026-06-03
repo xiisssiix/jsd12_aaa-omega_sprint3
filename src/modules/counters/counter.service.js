@@ -8,7 +8,7 @@ export const getNextSequence = async(sequenceName) => {
     $inc: { seq: 1 }
   },
   {
-    new: true,
+    returnDocument: "after",
     upsert: true,
   });
   if (!counter) {

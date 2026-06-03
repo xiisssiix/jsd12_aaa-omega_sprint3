@@ -23,7 +23,11 @@ export const getProductById = async (req, res, next) => {
 
 export const getProductByNumber  = async (req, res, next) => {
   try {
-    const product = await Product.findOne({ productNumber: Number(req.params.productNumber) });
+    const productNumber = Number(req.params.productNumber);
+    if (Number.isNaN(productNumber)) {
+      return res.status(400).json({ success: false, error: "Invalid product number" });
+    };
+    const product = await Product.findOne({ productNumber });
     if (!product) {
       return res.status(404).json({ success: false, error: "Product not found" });
     };
