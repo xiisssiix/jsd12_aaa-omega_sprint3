@@ -1,0 +1,104 @@
+@baseUrl = http://localhost:8888/api/v1/orders
+
+### Get all orders
+GET {{baseUrl}}
+
+### Get order by number (orderNumber)
+GET {{baseUrl}}/number/ord20260020
+
+### Get order by id
+GET {{baseUrl}}/6a2043afa2ff2809e35c8bf7
+
+### Create a new order
+@creteNumber = 30
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "totalPrice": 13900,
+  "customer": {
+    "userNumber": 1001,
+    "firstName": "สมชาย",
+    "lastName": "ใจดี {{creteNumber}}",
+    "company": null,
+    "taxId": null,
+    "phone": "0812345678",
+    "phone2": "0898765432",
+    "email": "somchai@example.com",
+    "shippingAddress": {
+      "label": "บ้าน",
+      "addressLine": "123/45",
+      "subdistrict": "บางนา",
+      "district": "บางนา",
+      "province": "กรุงเทพมหานคร",
+      "postcode": "10260"
+    }
+  },
+  "items": [
+    {
+      "productNumber": 2,
+      "name": "Hybrid Inverter 5kW",
+      "sku": "INV-5KW-HY",
+      "priceAtPurchase": 13900,
+      "quantity": 1
+    }
+  ]
+}
+
+### Update a order
+PUT {{baseUrl}}/6a20f8acf86aa82227e8bd38
+Content-Type: application/json
+
+{
+  "orderNumber": "ord20260034-2",
+  "totalPrice": 13900,
+  "paymentMethod": "bank_transfer",
+  "status": "open",
+  "items": [
+    {
+      "productNumber": 2,
+      "name": "Hybrid Inverter 5kW",
+      "sku": "inv-5kw-hy",
+      "priceAtPurchase": 13900,
+      "quantity": 1
+    }
+  ],
+  "orderNote": "555-4",
+  "customer": {
+    "userNumber": 10017,
+    "firstName": "สมชาย",
+    "lastName": "ใจดี 34",
+    "company": null,
+    "taxId": null,
+    "phone": "0812345678",
+    "phone2": "0898765432",
+    "email": "somchai@example.com",
+    "shippingAddress": {
+      "label": "บ้าน",
+      "addressLine": "123/45",
+      "subdistrict": "บางนา",
+      "district": "บางนา",
+      "province": "กรุงเทพมหานคร",
+      "postcode": 10260
+    }
+  }
+}
+
+### Update a status order
+PATCH {{baseUrl}}/6a20f8acf86aa82227e8bd38/status
+Content-Type: application/json
+
+{
+  "status": "paid"
+}
+
+### Update a internal note order
+PATCH {{baseUrl}}/6a20f8acf86aa82227e8bd38/internal-note
+Content-Type: application/json
+
+{
+  "internalNote": "สวัสดีครับ ทุกค๊๊๊๊๊๊๊๊๊๊๊๊น"
+}
+
+### DELETE a order
+DELETE {{baseUrl}}/6a20f7532ad5c0b707b43a29

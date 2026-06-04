@@ -8,16 +8,16 @@ const orderSchema = new mongoose.Schema({
   paymentMethod:{ type:String, enum:["bank_transfer", "cash", "card", "qr"], default:"bank_transfer" },
   status:{ type:String, enum:["open", "paid", "preparing", "shipping", "delivered", "cancelled"], default:"open", index:true},
   items:[{
-    productNumber: { type:Number, required:true, unique:true, immutable:true, index:true },
+    productNumber: { type:Number, required:true, index:true },
     name: { type:String, trim:true, maxlength:200 },
-    sku: { type:String, trim:true, lowercase:true, unique:true, index:true },
+    sku: { type:String, trim:true, lowercase:true, index:true },
     priceAtPurchase:{ type:Number, min:0 },
     quantity:{ type:Number, required:true, min:1 }
   }],
   orderNote:{ type:String, trim:true, default:"" },
   internalNote:{ type:String, trim:true, default:"" },
   customer:{
-    userNumber:{ type:Number, required:true, unique:true, immutable:true, index:true },
+    userNumber:{ type:Number, index:true },
     firstName:{ type:String, trim:true, maxlength:200 },
     lastName:{ type:String, trim:true, maxlength:200 },
     company:{ type:String, trim:true, default:null, maxlength:200 },
@@ -31,7 +31,7 @@ const orderSchema = new mongoose.Schema({
       subdistrict:{ type:String, trim:true },
       district:{ type:String, trim:true },
       province:{ type:String, trim:true },
-      postcode:{ type:Number }
+      postcode:{ type:String }
     }
   }
 }, {

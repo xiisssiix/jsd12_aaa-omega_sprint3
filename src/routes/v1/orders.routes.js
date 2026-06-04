@@ -10,5 +10,5 @@ router.get("/:id", getOrderById);
 router.post("/", createOrder);
 router.put("/:id", updateOrder);
 router.patch("/:id/status", updateOrderStatus);
-router.patch("/:id/internalNote", updateOrderInternalNote);
+router.patch("/:id/internal-note", updateOrderInternalNote);
 router.delete("/:id", deleteOrder);

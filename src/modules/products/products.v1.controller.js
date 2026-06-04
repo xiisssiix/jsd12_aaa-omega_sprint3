@@ -9,9 +9,13 @@ export const getProducts = async (req, res, next) => {
   };
 };
 
-export const getProductById = async (req, res, next) => {
+export const getProductByNumber  = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const productNumber = Number(req.params.productNumber);
+    if (Number.isNaN(productNumber)) {
+      return res.status(400).json({ success: false, error: "Invalid product number" });
+    };
+    const product = await Product.findOne({ productNumber });
     if (!product) {
       return res.status(404).json({ success: false, error: "Product not found" });
     };
@@ -21,13 +25,9 @@ export const getProductById = async (req, res, next) => {
   };
 };
 
-export const getProductByNumber  = async (req, res, next) => {
+export const getProductById = async (req, res, next) => {
   try {
-    const productNumber = Number(req.params.productNumber);
-    if (Number.isNaN(productNumber)) {
-      return res.status(400).json({ success: false, error: "Invalid product number" });
-    };
-    const product = await Product.findOne({ productNumber });
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ success: false, error: "Product not found" });
     };
@@ -64,7 +64,7 @@ export const deleteProduct = async (req, res, next) => {
     if (!product) {
       return res.status(404).json({ success: false, error: "Product not found" });
     };
-    return res.status(200).json({ success: true,  message: "Product deleted" });
+    return res.status(200).json({ success: true, data: product, message: "Product deleted" });
   } catch (error) {
     next(error);
   };
