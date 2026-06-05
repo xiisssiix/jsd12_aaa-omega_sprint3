@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const cartSchema = new mongoose.Schema({
-  userNumber:{ type:Number, required:true, unique:true, immutable:true, index:true },
+  userNumber:{ type:Number, unique:true, immutable:true, index:true },
   items:[{
     productNumber:{ type:Number, required:true, index:true },
     quantity:{ type:Number, required:true, min:1 }
