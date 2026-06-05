@@ -3,7 +3,7 @@ import { Router } from "express";
 
 import { router as usersRoutes } from "./users.routes.js";
 import { router as productsRoutes } from "./products.routes.js";
-import { router as cartsRoutes } from "./cart.routes.js";
+import { router as cartsRoutes } from "./carts.routes.js";
 import { router as ordersRoutes } from "./orders.routes.js";
 import { router as servicesRoutes } from "./services.routes.js";
 

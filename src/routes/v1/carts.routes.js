@@ -1,11 +1,8 @@
 import { Router } from "express";
-
-import { getCart, addCartItem, updateCartItem, removeCartItem, clearCart } from "../../modules/carts/carts.v1.controller.js";
+import { addToCart, getCart } from "../../modules/carts/carts.v1.controller.js";
+import { protect } from "../../middlewares/auth.middleware.js";
 
 export const router = Router();
 
-router.get("/", getCart);
-router.post("/items", addCartItem);
-router.put("/items/:productNumber", updateCartItem);
-router.delete("/items/:productNumber", removeCartItem);
-//router.delete("/", clearCart);
+router.post("/add", protect, addToCart); // ต้องล็อกอินก่อนถึงเพิ่มได้
+router.get("/", protect, getCart);       // ต้องล็อกอินก่อนถึงดูตะกร้าได้
