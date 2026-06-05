@@ -1,0 +1,90 @@
+@baseUrl = http://localhost:8888/api/v1/services
+
+### Get all services
+GET {{baseUrl}}
+
+### Get service by number (serviceNumber)
+GET {{baseUrl}}/number/sv20260002
+
+### Get service by id
+GET {{baseUrl}}/6a1f98642fc5656fa3135184
+
+### Create a new service
+@creteNumber = 22
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "appointmentAt": "2026-05-09T13:30:00.000Z",
+  "serviceType": "maintenance",
+  "status": "request_received",
+  "title": "test 007",
+  "internalNote": "demo test",
+  "customer": {
+    "firstName": "Arm",
+    "lastName": "The Tester :D",
+    "phone": "0000000007",
+    "serviceAddress": {
+      "addressLine": "007/008"
+    }
+  }
+}
+
+### Update a service
+PUT {{baseUrl}}/6a1f98642fc5656fa3135190
+Content-Type: application/json
+
+{
+  "serviceNumber": "sv20260016",
+  "orderNumber": "ord20260016",
+  "appointmentAt": "2026-04-04T08:00:00.000Z",
+  "serviceType": "install",
+  "team": "team1",
+  "status": "request_received",
+  "title": "ติดตั้งระบบโซล่าโกดังสินค้า",
+  "description": "เตรียมติดตั้งแผง Solar และ Inverter สำหรับโกดัง",
+  "image": {
+    "url": "https://placehold.co/600x600?text=S-16",
+    "cloudinaryId": "Service 16"
+  },
+  "internalNote": "รอยืนยันวันเข้าหน้างาน จริง ๆ นะครับ",
+  "customer": {
+    "userNumber": 1016,
+    "firstName": "อรรถพล",
+    "lastName": "แสงทอง",
+    "company": "AT Warehouse",
+    "taxId": "5566778899001",
+    "phone": "0891113344",
+    "phone2": "0815552233",
+    "email": "attapon@example.com",
+    "serviceAddress": {
+      "label": "โกดัง",
+      "addressLine": "199/9",
+      "subdistrict": "บางปลา",
+      "district": "บางพลี",
+      "province": "สมุทรปราการ",
+      "postcode": "10540"
+    }
+  },
+  "createdAt": "2026-04-16T08:00:00.000Z"
+  }
+}
+
+### Update a status service
+PATCH {{baseUrl}}/6a1f98642fc5656fa313518f/status
+Content-Type: application/json
+
+{
+  "status": "request_received"
+}
+
+### Update a internal note service
+PATCH {{baseUrl}}/6a1f98642fc5656fa313518e/internal-note
+Content-Type: application/json
+
+{
+  "internalNote": "สวัสดีครับ 789+"
+}
+
+### DELETE a service
+DELETE {{baseUrl}}/6a22e16f7800e3827f78f353

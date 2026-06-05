@@ -8,17 +8,14 @@ import { connectMongoDb, mongoStatus } from "./config/mongodb.js";
 import { connectCloudinary, cloudinaryStatus } from "./config/cloudinary.js";
 import { limiter } from "./middlewares/rateLimit.js";
 
-const app = express()
+const app = express();
+
+const isProd = process.env.NODE_ENV === "production";
 
 app.use(helmet());
 
 const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:5175",
-    "https://jsd12-aaa-omega-sprint2.vercel.app"
-  ],
+  origin: process.env.FRONTEND_URLS?.split(",") || [],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -86,18 +83,23 @@ app.get('/', (req, res) => {
 
 app.use("/api", apiRoutes);
 
-// Centralized error 404 Not Found
+// Centralized error 404 not found handler
+app.use((req, res) => {
+  res.status(404).json({ success: false, error: "Route not found" });
+});
 
-// Centralized error handling middleware
+// Centralized error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({
     success: false,
-    message: err.message || "Internal Server Error!",
+    message: isProd
+      ? "Internal Server Error"
+      : err.message || "Internal Server Error",
     path: req.originalUrl,
     method: req.method,
     timestamp: new Date().toISOString(),
-    stack: err.stack,
+    ...(isProd ? {} : { stack: err.stack })
   });
 });
 
@@ -107,6 +109,5 @@ await connectMongoDb();
 await connectCloudinary();
 
 app.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}
-    http://localhost:${PORT}`);
+  console.log(`Server running on port: ${PORT}`);
 });

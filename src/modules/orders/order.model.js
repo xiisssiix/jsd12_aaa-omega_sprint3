@@ -14,16 +14,16 @@ const orderSchema = new mongoose.Schema({
     priceAtPurchase:{ type:Number, min:0 },
     quantity:{ type:Number, required:true, min:1 }
   }],
-  orderNote:{ type:String, trim:true, default:"" },
-  internalNote:{ type:String, trim:true, default:"" },
+  orderNote:{ type:String, trim:true},
+  internalNote:{ type:String, trim:true },
   customer:{
     userNumber:{ type:Number, index:true },
     firstName:{ type:String, trim:true, maxlength:200 },
     lastName:{ type:String, trim:true, maxlength:200 },
-    company:{ type:String, trim:true, default:null, maxlength:200 },
-    taxId:{ type:String, default:null },
+    company:{ type:String, trim:true, maxlength:200 },
+    taxId:{ type:String },
     phone:{ type:String, index:true },
-    phone2:{ type:String, default:null, index:true },
+    phone2:{ type:String, index:true },
     email:{ type:String, index:true },
     shippingAddress:{
       label:{ type:String, trim:true },

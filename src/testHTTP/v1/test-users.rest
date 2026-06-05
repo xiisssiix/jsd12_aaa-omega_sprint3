@@ -1,0 +1,88 @@
+@baseUrl = http://localhost:8888/api/v1/users
+
+### Register user
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "firstName": "QA_QA",
+  "lastName": "Demo (O_oi)",
+  "phone": "0999999999",
+  "email": "account@aaaomega.com",
+  "password": "aaaomega"
+}
+
+### Login
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "tester@aaaomega.com",
+  "password": "aaaomega"
+}
+
+### Logout
+POST {{baseUrl}}/logout
+
+### Get My Profile
+GET {{baseUrl}}/profile
+
+### Update My Profile
+PUT {{baseUrl}}/profile
+Content-Type: application/json
+
+{
+  "firstName": "Arm Updated",
+  "lastName": "Developer",
+  "company": "AAA Omega",
+  "taxId": "1234567890123",
+  "phone": "0899999999",
+  "phone2": "0888888888",
+  "address": {
+    "label": "Home",
+    "addressLine": "123 ถนนสุขุมวิท"
+  },
+  "shippingAddress": {
+    "label": "Shipping",
+    "addressLine": "456 ถนนพระราม 9"
+  },
+  "serviceAddress": {
+    "label": "Project Site",
+    "addressLine": "789 บางนา"
+  }
+}
+
+### Change My Password
+PATCH {{baseUrl}}/profile/password
+Content-Type: application/json
+
+{
+"currentPassword": "aaaomega",
+"newPassword": "87654321"
+}
+
+
+### Get All Users (staff/admin)
+
+GET {{baseUrl}}
+
+### Get User By Number (staff/admin)
+
+GET {{baseUrl}}/number/1
+
+### Get User By Id (staff/admin)
+
+GET {{baseUrl}}/6a1f9a102fc5656fa31351a3
+
+### Update User Role (admin)
+
+PATCH {{baseUrl}}/6a22c54ee56c9fd847100e96/role
+Content-Type: application/json
+
+{
+  "role": "admin"
+}
+
+### Delete User (admin)
+
+DELETE {{baseUrl}}/6a22c54ee56c9fd847100e96

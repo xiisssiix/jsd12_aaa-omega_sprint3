@@ -16,10 +16,9 @@ const productSchema = new mongoose.Schema({
         label: { type:String, trim:true, },
         value: { type:String, trim:true, }
       }
-    ],
-    default: []
+    ]
   },
-  features: { type:[String], trim:true, default:[] },
+  features: { type:[String], trim:true},
   image: {
     url: { type:String },
     cloudinaryId: { type:String }
@@ -30,11 +29,11 @@ const productSchema = new mongoose.Schema({
       cloudinaryId: { type:String }
     }
   ],
-  tags: { type:[String], maxlength:200, default:[] },
+  tags: { type:[String], maxlength:200 },
   price: { type:Number, required:true, min:0 },
-  salePrice: { type:Number, min:0, default:null },
+  salePrice: { type:Number, min:0 },
   stock: { type:Number, required:true, min:0 },
-  stockMin: { type:Number, min:0, default:0 },
+  stockMin: { type:Number, min:0 },
   isActive: { type:Boolean, default:true, index:true }
 }, {
   timestamps:true
