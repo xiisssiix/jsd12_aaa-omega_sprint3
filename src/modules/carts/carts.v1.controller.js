@@ -59,3 +59,57 @@ export const getCart = async (req, res) => {
     res.status(500).json({ message: "Error fetching cart", error: error.message });
   }
 };
+
+// ฟังก์ชันอัปเดตจำนวนสินค้า
+export const updateQuantity = async (req, res) => {
+  const { productNumber, quantity } = req.body;
+  const { userNumber } = req.user;
+
+  try {
+    // ป้องกันการส่งจำนวนติดลบหรือเป็น 0
+    if (quantity <= 0) {
+      return res.status(400).json({ message: "จำนวนสินค้าต้องมากกว่า 0" });
+    }
+
+    const cart = await Cart.findOne({ userNumber });
+    
+    if (!cart) {
+      return res.status(404).json({ message: "ไม่พบตะกร้าสินค้า" });
+    }
+
+    const itemIndex = cart.items.findIndex(i => i.productNumber === productNumber);
+    
+    if (itemIndex > -1) {
+      cart.items[itemIndex].quantity = quantity; // อัปเดตจำนวนใหม่แทนที่ของเดิม
+      await cart.save();
+      return res.status(200).json({ message: "อัปเดตจำนวนสินค้าสำเร็จ", cart });
+    } else {
+      return res.status(404).json({ message: "ไม่พบสินค้านี้ในตะกร้า" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// ฟังก์ชันลบสินค้าออกจากตะกร้า
+export const removeFromCart = async (req, res) => {
+  // รับค่า productNumber มาจาก URL Parameter
+  const { productNumber } = req.params; 
+  const { userNumber } = req.user;
+
+  try {
+    const cart = await Cart.findOne({ userNumber });
+    
+    if (!cart) {
+      return res.status(404).json({ message: "ไม่พบตะกร้าสินค้า" });
+    }
+
+    // ใช้ filter เพื่อเก็บเฉพาะสินค้าที่ productNumber ไม่ตรงกับที่กดลบ
+    cart.items = cart.items.filter(i => i.productNumber !== parseInt(productNumber));
+    await cart.save();
+
+    res.status(200).json({ message: "ลบสินค้าออกจากตะกร้าสำเร็จ", cart });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
