@@ -113,3 +113,25 @@ export const removeFromCart = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+// ฟังก์ชันล้างสินค้าทั้งหมดในตะกร้า (ลบแค่รายการ แต่เก็บตะกร้าไว้)
+export const clearCart = async (req, res) => {
+  const { userNumber } = req.user; // ดึง userNumber มาจาก auth.middleware เหมือนเดิม
+
+  try {
+    const cart = await Cart.findOne({ userNumber });
+    
+    if (!cart) {
+      // ถ้าไม่พบตะกร้า ก็ถือว่าตะกร้าว่างอยู่แล้ว ส่ง status 200 กลับไปได้เลย
+      return res.status(200).json({ message: "ตะกร้าสินค้าว่างอยู่แล้ว", items: [] });
+    }
+
+    // เซ็ตให้ items กลายเป็น Array ว่าง (เคลียร์สินค้าออกทั้งหมด)
+    cart.items = [];
+    await cart.save();
+
+    res.status(200).json({ message: "ล้างตะกร้าสินค้าสำเร็จ", cart });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
